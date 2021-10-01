@@ -23,10 +23,36 @@ class Dashboard extends StatelessWidget {
         title: Text('Dashboard'),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('images/bytebank_logo.png'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 150,
+              height: 100,
+              color: Theme.of(context).primaryColor,
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Icon(
+                    Icons.people,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  Text(
+                    'Contacts',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
