@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/dashboard.dart';
-import 'package:flutter_app/database/app_database_linux.dart';
 
 void main() async {
-  // await resetSeed();
   runApp(BytebankApp());
 }
 

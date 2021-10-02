@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/contacts_list.dart';
+import 'package:flutter_app/database/dao/contact_dao.dart';
 
 class Dashboard extends StatelessWidget {
+  void _navigateToContacts(BuildContext context) async {
+    // await contactDAO.seed();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (builder) => ContactsList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,11 +31,7 @@ class Dashboard extends StatelessWidget {
             child: Material(
               color: Theme.of(context).primaryColor,
               child: InkWell(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (builder) => ContactsList(),
-                  ),
-                ),
+                onTap: () => _navigateToContacts(context),
                 child: Container(
                   width: 150,
                   height: 100,
