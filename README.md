@@ -33,3 +33,5 @@ crossAxisAlignment: Alinhamento do conteúdo na horizontal.
 ### SizedBox
 É possível aumentar o width de um widget para 100% envolvendo em um SizedBox com width double.maxFinite.
 
+### FutureBuilder
+FutureBuilder é um stateful widget que pode ser usado dentro de um stateless widget trabalhando com dados assíncronos. 
