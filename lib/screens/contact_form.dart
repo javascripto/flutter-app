@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/database/app_database.dart';
 import 'package:flutter_app/models/contact.dart';
 
 class ContactForm extends StatefulWidget {
@@ -11,6 +12,14 @@ class _ContactFormState extends State<ContactForm> {
 
   final TextEditingController _accountNumberController =
       TextEditingController();
+
+  void _createContact() async {
+    final String name = _nameController.text;
+    final int? accountNumber = int.tryParse(_accountNumberController.text);
+    final Contact contact = Contact(name: name, accountNumber: accountNumber);
+    await save(contact);
+    Navigator.pop(context, contact);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +54,7 @@ class _ContactFormState extends State<ContactForm> {
               child: SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  onPressed: () {
-                    final String name = _nameController.text;
-                    final int? accountNumber =
-                        int.tryParse(_accountNumberController.text);
-                    final Contact contact =
-                        Contact(name: name, accountNumber: accountNumber);
-                    Navigator.pop(context, contact);
-                  },
+                  onPressed: _createContact,
                   child: Text('Create'),
                 ),
               ),
