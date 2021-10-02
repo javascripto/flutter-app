@@ -28,6 +28,7 @@ ThemeData getBytebankTheme() {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.blueAccent[700]),
+        padding: MaterialStateProperty.all(EdgeInsets.all(16)),
       ),
     ),
   );
