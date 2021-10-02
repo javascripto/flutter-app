@@ -3,7 +3,12 @@ import 'package:flutter_app/models/contact.dart';
 import 'package:flutter_app/screens/contact_form.dart';
 import 'package:flutter_app/database/app_database.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
+  @override
+  _ContactsListState createState() => _ContactsListState();
+}
+
+class _ContactsListState extends State<ContactsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +16,8 @@ class ContactsList extends StatelessWidget {
         title: Text('Contacts'),
       ),
       body: FutureBuilder<List<Contact>>(
-        future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
+        future: Future.delayed(Duration(milliseconds: 500))
+            .then((value) => findAll()),
         // initialData: <Contact>[], // optional
         builder: (context, snapshot) {
           final contacts = snapshot.data;
@@ -25,11 +31,12 @@ class ContactsList extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final Contact newContact = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => ContactForm()),
-          );
-          debugPrint(newContact.toString());
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(builder: (context) => ContactForm()),
+              )
+              .then((value) => setState(() {/* update futurebuilder  */}));
         },
         child: Icon(Icons.add),
       ),
