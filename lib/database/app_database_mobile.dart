@@ -5,15 +5,20 @@ import 'package:flutter_app/models/contact.dart';
 Future<Database> _createDatabase() async {
   String dbPath = await getDatabasesPath();
   String path = join(dbPath, 'bytebank.db');
-  return openDatabase(path, version: 1, onCreate: (db, version) {
-    db.execute('''
-      CREATE TABLE contacts (
-        int id PRIMARY KEY,
-        name TEXT,
-        account_number INTEGER
-      )
-    ''');
-  });
+  return openDatabase(
+    path,
+    version: 1,
+    onCreate: (db, version) {
+      db.execute('''
+        CREATE TABLE contacts (
+          int id PRIMARY KEY,
+          name TEXT,
+          account_number INTEGER
+        )
+      ''');
+    },
+    onDowngrade: onDatabaseDowngradeDelete,
+  );
 }
 
 Future<int> save(Contact contact) async {

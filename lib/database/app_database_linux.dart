@@ -50,3 +50,13 @@ Future<int> delete(int id) async {
   storage.setStringList('contacts', newContactsString);
   return affectedRows;
 }
+
+Future<void> resetSeed() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  await sharedPreferences.clear();
+  await save(Contact(name: 'John Doe', accountNumber: 12345));
+  await save(Contact(name: 'Jane Doe', accountNumber: 67890));
+  await save(Contact(name: 'Anne Parker', accountNumber: 37283));
+  await save(Contact(name: 'Joe Smith', accountNumber: 54321));
+  await findAll().then(print);
+}

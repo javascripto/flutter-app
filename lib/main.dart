@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/contact.dart';
 import 'package:flutter_app/screens/dashboard.dart';
-import 'package:flutter_app/database/app_database.dart';
+import 'package:flutter_app/database/app_database_linux.dart';
 
 void main() async {
-  // await save(Contact(name: 'John Doe', accountNumber: 12345));
-  // await save(Contact(name: 'Jane Doe', accountNumber: 67890));
-  // await save(Contact(name: 'Anne Parker', accountNumber: 37283));
-  // await save(Contact(name: 'Joe Smith', accountNumber: 54321));
-  // await findAll().then(print);
+  // await resetSeed();
   runApp(BytebankApp());
 }
 
