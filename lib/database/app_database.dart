@@ -2,9 +2,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_app/models/contact.dart';
 
-Future<Database> createDatabase() async {
-  final String dbPath = await getDatabasesPath();
-  final String path = join(dbPath, 'bytebank.db');
+Future<Database> _createDatabase() async {
+  String dbPath = await getDatabasesPath();
+  String path = join(dbPath, 'bytebank.db');
   return openDatabase(path, version: 1, onCreate: (db, version) {
     db.execute('''
       CREATE TABLE contacts (
@@ -17,7 +17,7 @@ Future<Database> createDatabase() async {
 }
 
 Future<int> save(Contact contact) async {
-  Database db = await createDatabase();
+  Database db = await _createDatabase();
   int id = await db.insert('contacts', {
     'name': contact.name,
     'account_number': contact.accountNumber,
@@ -26,7 +26,7 @@ Future<int> save(Contact contact) async {
 }
 
 Future<List<Contact>> findAll() async {
-  Database db = await createDatabase();
+  Database db = await _createDatabase();
   List<Map> contactMapsList = await db.query('contacts');
   List<Contact> contactList = contactMapsList
       .map(
@@ -41,7 +41,7 @@ Future<List<Contact>> findAll() async {
 }
 
 Future<Contact?> find(int id) async {
-  Database db = await createDatabase();
+  Database db = await _createDatabase();
   List<Map> contactMapsList = await db.query(
     'contacts',
     where: 'id = ?',
@@ -56,7 +56,7 @@ Future<Contact?> find(int id) async {
 }
 
 Future<int> delete(int id) async {
-  Database db = await createDatabase();
+  Database db = await _createDatabase();
   int affectedRows = await db.delete(
     'contacts',
     where: 'id = ?',
