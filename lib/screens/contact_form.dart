@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/database/app_database.dart';
 import 'package:flutter_app/models/contact.dart';
+import 'package:flutter_app/database/dao/contact_dao.dart';
 
 class ContactForm extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _ContactFormState extends State<ContactForm> {
     final String name = _nameController.text;
     final int? accountNumber = int.tryParse(_accountNumberController.text);
     final Contact contact = Contact(name: name, accountNumber: accountNumber);
-    await save(contact);
+    await contactDAO.save(contact);
     Navigator.pop(context, contact);
   }
 

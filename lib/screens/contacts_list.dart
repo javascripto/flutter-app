@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/contact.dart';
 import 'package:flutter_app/screens/contact_form.dart';
-import 'package:flutter_app/database/app_database.dart';
+import 'package:flutter_app/database/dao/contact_dao.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _ContactsListState extends State<ContactsList> {
       ),
       body: FutureBuilder<List<Contact>>(
         future: Future.delayed(Duration(milliseconds: 500))
-            .then((value) => findAll()),
+            .then((value) => contactDAO.findAll()),
         // initialData: <Contact>[], // optional
         builder: (context, snapshot) {
           final contacts = snapshot.data;
@@ -31,12 +31,11 @@ class _ContactsListState extends State<ContactsList> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(builder: (context) => ContactForm()),
-              )
-              .then((value) => setState(() {/* update futurebuilder  */}));
+        onPressed: () async {
+          await Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ContactForm()),
+          );
+          setState(() {/* update FutureBuilder */});
         },
         child: Icon(Icons.add),
       ),
