@@ -34,4 +34,24 @@ crossAxisAlignment: Alinhamento do conteúdo na horizontal.
 É possível aumentar o width de um widget para 100% envolvendo em um SizedBox com width double.maxFinite.
 
 ### FutureBuilder
-FutureBuilder é um stateful widget que pode ser usado dentro de um stateless widget trabalhando com dados assíncronos. 
+FutureBuilder é um stateful widget que pode ser usado dentro de um stateless widget trabalhando com dados assíncronos.
+
+### SingleChildScrollView e ListView
+SingleChildScrollView com um child Row e scrollDirection Axis.horizontal é o mesmo que usar um ListView como child de um Container com altura fixa
+
+```dart
+SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(children: []),
+)
+```
+
+```dart
+Container(
+  height: 100,
+  child: ListView(
+    scrollDirection: Axis.horizontal,
+    children: [],
+  )
+)
+```
