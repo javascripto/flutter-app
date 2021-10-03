@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/contacts_list.dart';
 import 'package:flutter_app/database/dao/contact_dao.dart';
+import 'package:flutter_app/screens/transactions_list.dart';
+
+teste() {}
 
 class Dashboard extends StatelessWidget {
-  void _navigateToContacts(BuildContext context) async {
-    // await contactDAO.seed();
+  void _navigateTo(BuildContext context, Widget Function() widgetFactoryFn) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (builder) => ContactsList(),
-      ),
+      MaterialPageRoute(builder: (builder) => widgetFactoryFn()),
     );
+  }
+
+  void _navigateToTransfers(BuildContext context) async {
+    // await contactDAO.seed();
+    _navigateTo(context, () => ContactsList());
   }
 
   @override
@@ -34,12 +39,12 @@ class Dashboard extends StatelessWidget {
                 _FeatureItem(
                   name: 'Transfer',
                   icon: Icons.monetization_on,
-                  onTap: () => _navigateToContacts(context),
+                  onTap: () => _navigateToTransfers(context),
                 ),
                 _FeatureItem(
                   name: 'Transaction Feed',
                   icon: Icons.description,
-                  onTap: () {},
+                  onTap: () => _navigateTo(context, () => TransactionsList()),
                 ),
                 _FeatureItem(),
               ],
