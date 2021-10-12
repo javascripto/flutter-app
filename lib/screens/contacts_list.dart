@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/contact.dart';
 import 'package:flutter_app/screens/contact_form.dart';
 import 'package:flutter_app/database/dao/contact_dao.dart';
+import 'package:flutter_app/components/centralized_loading.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -38,28 +39,6 @@ class _ContactsListState extends State<ContactsList> {
           setState(() {/* update FutureBuilder */});
         },
         child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class CentralizedLoading extends StatelessWidget {
-  final String text;
-
-  const CentralizedLoading({this.text = 'Loading...'});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(),
-          ),
-          Text(text),
-        ],
       ),
     );
   }
