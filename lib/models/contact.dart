@@ -11,13 +11,13 @@ class Contact {
         accountNumber = json['accountNumber'];
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        ...(id != null ? {'id': id} : {}),
         'name': name,
         'accountNumber': accountNumber,
       };
 
   @override
   String toString() {
-    return 'Contact{id: $id, name: $name, accountNumber: $accountNumber}';
+    return 'Contact{name: $name, accountNumber: $accountNumber}';
   }
 }
