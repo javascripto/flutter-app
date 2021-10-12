@@ -18,11 +18,12 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-Future<List<Transaction>> findAll() async {
-  final client = InterceptedClient.build(interceptors: [
-    LoggingInterceptor(),
-  ]);
+final client = InterceptedClient.build(interceptors: [
+  LoggingInterceptor(),
+]);
 
+Future<List<Transaction>> findAll() async {
+  await Future.delayed(Duration(milliseconds: 500));
   final response =
       await client.get(Uri.parse('http://localhost:8080/transactions'));
   return jsonDecode(response.body)
