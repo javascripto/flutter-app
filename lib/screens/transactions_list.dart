@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/centered_message.dart';
 
 import 'package:flutter_app/http/webclient.dart';
 import 'package:flutter_app/models/transaction.dart';
@@ -15,7 +16,21 @@ class TransactionsList extends StatelessWidget {
         future: findAll(),
         builder: (context, snapshot) {
           final transactions = snapshot.data;
-          if (transactions == null) return CenteredLoading();
+          print(transactions);
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return CenteredLoading();
+            case ConnectionState.done:
+            default:
+          }
+          if (transactions == null || transactions.isEmpty) {
+            return CenteredMessage(
+              'No transactions found',
+              icon: Icons.warning,
+            );
+          }
           return ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (context, index) {
