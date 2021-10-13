@@ -24,8 +24,9 @@ final client = InterceptedClient.build(interceptors: [
 
 Future<List<Transaction>> findAll() async {
   await Future.delayed(Duration(milliseconds: 500));
-  final response =
-      await client.get(Uri.parse('http://localhost:8080/transactions'));
+  final response = await client
+      .get(Uri.parse('http://localhost:8080/transactions'))
+      .timeout(Duration(seconds: 5));
   return jsonDecode(response.body)
       .map<Transaction>((json) => Transaction.fromJson(json))
       .toList();
