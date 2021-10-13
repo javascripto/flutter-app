@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CentralizedLoading extends StatelessWidget {
+class CenteredLoading extends StatelessWidget {
   final String text;
 
-  const CentralizedLoading({this.text = 'Loading...'});
+  const CenteredLoading({this.text = 'Loading...'});
 
   @override
   Widget build(BuildContext context) {

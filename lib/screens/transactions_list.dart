@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_app/http/webclient.dart';
 import 'package:flutter_app/models/transaction.dart';
-import 'package:flutter_app/components/centralized_loading.dart';
+import 'package:flutter_app/components/centered_loading.dart';
 
 class TransactionsList extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class TransactionsList extends StatelessWidget {
         future: findAll(),
         builder: (context, snapshot) {
           final transactions = snapshot.data;
-          if (transactions == null) return CentralizedLoading();
+          if (transactions == null) return CenteredLoading();
           return ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (context, index) {

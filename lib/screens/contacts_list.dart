@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/contact.dart';
 import 'package:flutter_app/screens/contact_form.dart';
 import 'package:flutter_app/database/dao/contact_dao.dart';
-import 'package:flutter_app/components/centralized_loading.dart';
+import 'package:flutter_app/components/centered_loading.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class _ContactsListState extends State<ContactsList> {
         // initialData: <Contact>[], // optional
         builder: (context, snapshot) {
           final contacts = snapshot.data;
-          if (contacts == null) return CentralizedLoading();
+          if (contacts == null) return CenteredLoading();
           return ListView.builder(
             itemCount: contacts.length,
             itemBuilder: (context, index) {
