@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/http/webclient.dart';
+import 'package:flutter_app/http/webclients/transaction_webclient.dart';
 
 import '../models/contact.dart';
 import '../models/transaction.dart';
@@ -15,6 +15,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final TextEditingController _valueController = TextEditingController();
+  final _webClient = TransactionWebClient();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class _TransactionFormState extends State<TransactionForm> {
                         contact: widget.contact,
                       );
                       try {
-                        await save(transactionCreated);
+                        await _webClient.save(transactionCreated);
                         Navigator.pop(context, transactionCreated);
                       } catch (e) {
                         print(e);

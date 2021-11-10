@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/contacts_list.dart';
-import 'package:flutter_app/database/dao/contact_dao.dart';
 import 'package:flutter_app/screens/transactions_list.dart';
 
 teste() {}
