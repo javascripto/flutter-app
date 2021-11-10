@@ -2,23 +2,10 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http_interceptor/http_interceptor.dart';
+import 'package:flutter_app/http/interceptors/logging_interceptor.dart';
 
 import '../models/contact.dart';
 import '../models/transaction.dart';
-
-class LoggingInterceptor implements InterceptorContract {
-  @override
-  interceptRequest({required RequestData data}) async {
-    print(data.toString());
-    return data;
-  }
-
-  @override
-  interceptResponse({required ResponseData data}) async {
-    print(data.toString());
-    return data;
-  }
-}
 
 final client = InterceptedClient.build(interceptors: [
   LoggingInterceptor(),
