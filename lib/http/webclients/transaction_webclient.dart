@@ -23,19 +23,9 @@ class TransactionWebClient {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer 123',
       },
-      body: _transactionToJson(transaction),
+      body: jsonEncode(transaction),
     );
     return Transaction.fromJson(jsonDecode(response.body));
-  }
-
-  String _transactionToJson(Transaction transaction) {
-    return jsonEncode({
-      'value': transaction.value,
-      'contact': {
-        'name': transaction.contact.name,
-        'accountNumber': transaction.contact.accountNumber,
-      },
-    });
   }
 }
 
