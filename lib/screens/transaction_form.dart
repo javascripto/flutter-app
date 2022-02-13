@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/transaction_atuh_dialog.dart';
 import 'package:flutter_app/http/webclients/transaction_webclient.dart';
 
 import '../models/contact.dart';
@@ -67,12 +68,22 @@ class _TransactionFormState extends State<TransactionForm> {
                         value: value,
                         contact: widget.contact,
                       );
-                      try {
-                        await _webClient.save(transactionCreated);
-                        Navigator.pop(context, transactionCreated);
-                      } catch (e) {
-                        print(e);
-                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) => TransactionAuthDialog(
+                          onConfirm: (password) async {
+                            try {
+                              await _webClient.save(
+                                transactionCreated,
+                                password,
+                              );
+                              Navigator.pop(context, transactionCreated);
+                            } catch (e) {
+                              print(e);
+                            }
+                          },
+                        ),
+                      );
                     },
                   ),
                 ),
