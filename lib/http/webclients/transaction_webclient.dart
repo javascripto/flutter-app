@@ -16,7 +16,10 @@ class TransactionWebClient {
         .toList();
   }
 
-  Future<Transaction> save(Transaction transaction) async {
+  Future<Transaction> save(Transaction transaction, String password) async {
+    if (password.isEmpty) {
+      throw Exception('Senha inválida');
+    }
     final response = await client.post(
       Uri.parse('http://localhost:8080/transactions'),
       headers: {
