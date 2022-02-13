@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/components/transaction_atuh_dialog.dart';
+import 'package:flutter_app/components/transaction_auth_dialog.dart';
 import 'package:flutter_app/http/webclients/transaction_webclient.dart';
 
 import '../models/contact.dart';
