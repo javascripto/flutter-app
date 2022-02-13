@@ -39,13 +39,16 @@ String formattedJsonEncode(dynamic object) {
 main() async {
   final transactionWebClient = TransactionWebClient();
 
-  final transaction = await transactionWebClient.save(Transaction(
-    value: 123456.78,
-    contact: Contact(
-      name: 'Fulano',
-      accountNumber: 1234,
+  final transaction = await transactionWebClient.save(
+    Transaction(
+      value: 123456.78,
+      contact: Contact(
+        name: 'Fulano',
+        accountNumber: 1234,
+      ),
     ),
-  ));
+    'password',
+  );
   print(formattedJsonEncode(transaction));
   final transactions = await transactionWebClient.findAll();
   print(formattedJsonEncode(transactions));
