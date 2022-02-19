@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/response_dialog.dart';
 import 'package:flutter_app/components/transaction_auth_dialog.dart';
 import 'package:flutter_app/http/webclients/transaction_webclient.dart';
 
@@ -70,17 +71,9 @@ class _TransactionFormState extends State<TransactionForm> {
                       );
                       showDialog(
                         context: context,
-                        builder: (context) => TransactionAuthDialog(
+                        builder: (contextDialog) => TransactionAuthDialog(
                           onConfirm: (password) async {
-                            try {
-                              await _webClient.save(
-                                transactionCreated,
-                                password,
-                              );
-                              Navigator.pop(context, transactionCreated);
-                            } catch (e) {
-                              print(e);
-                            }
+                            await _save(transactionCreated, password, context);
                           },
                         ),
                       );
@@ -92,6 +85,36 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _save(
+    Transaction transactionCreated,
+    String password,
+    BuildContext context,
+  ) async {
+    await Future.delayed(Duration(seconds: 1));
+    _webClient.save(transactionCreated, password).then(
+      (transaction) {
+        showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return SuccessDialog('Successful transaction');
+          },
+        ).then((value) {
+          Navigator.pop(context, transactionCreated);
+        });
+      },
+    ).catchError(
+      (e) {
+        showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(e.message);
+          },
+        );
+      },
+      test: (e) => e is Exception,
     );
   }
 }
