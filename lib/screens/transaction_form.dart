@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/progress.dart';
 import 'package:flutter_app/components/response_dialog.dart';
 import 'package:flutter_app/components/transaction_auth_dialog.dart';
 import 'package:flutter_app/http/webclients/transaction_webclient.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/contact.dart';
 import '../models/transaction.dart';
@@ -16,8 +20,10 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
+  final String _transactionId = Uuid().v4();
   final TextEditingController _valueController = TextEditingController();
   final _webClient = TransactionWebClient();
+  bool _isSending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +37,13 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Visibility(
+                visible: _isSending,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Progress(message: 'Sending..'),
+                ),
+              ),
               Text(
                 widget.contact.name,
                 style: TextStyle(
@@ -66,6 +79,7 @@ class _TransactionFormState extends State<TransactionForm> {
                       final double value =
                           double.tryParse(_valueController.text)!;
                       final transactionCreated = Transaction(
+                        id: _transactionId,
                         value: value,
                         contact: widget.contact,
                       );
@@ -93,28 +107,39 @@ class _TransactionFormState extends State<TransactionForm> {
     String password,
     BuildContext context,
   ) async {
+    setState(() {
+      _isSending = true;
+    });
     await Future.delayed(Duration(seconds: 1));
-    _webClient.save(transactionCreated, password).then(
-      (transaction) {
-        showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return SuccessDialog('Successful transaction');
-          },
-        ).then((value) {
-          Navigator.pop(context, transactionCreated);
-        });
+    await _webClient.save(transactionCreated, password).catchError((e) {
+      _showFailureDialog('Timeout submitting the transaction');
+    }, test: (e) => e is TimeoutException).catchError((e) {
+      final message = e.toString();
+      _showFailureDialog(message);
+    }, test: (e) => e is Exception).whenComplete(() {
+      setState(() {
+        _isSending = false;
+      });
+    });
+    await _showSuccessDialog();
+    Navigator.pop(context, transactionCreated);
+  }
+
+  Future _showSuccessDialog() {
+    return showDialog(
+      context: context,
+      builder: (contextDialog) {
+        return SuccessDialog('Successful transaction');
       },
-    ).catchError(
-      (e) {
-        showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog(e.message);
-          },
-        );
+    );
+  }
+
+  Future _showFailureDialog(String message) {
+    return showDialog(
+      context: context,
+      builder: (contextDialog) {
+        return FailureDialog(message);
       },
-      test: (e) => e is Exception,
     );
   }
 }
