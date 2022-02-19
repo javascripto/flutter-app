@@ -6,11 +6,15 @@ import '../../models/contact.dart';
 import '../../models/transaction.dart';
 
 class TransactionWebClient {
+  static final Map<int, String> _statusCodeResponses = {
+    400: 'there was an error submitting the transaction',
+    401: 'authentication failed',
+  };
+
   Future<List<Transaction>> findAll() async {
     await Future.delayed(Duration(milliseconds: 500));
-    final response = await client
-        .get(Uri.parse('http://localhost:8080/transactions'))
-        .timeout(Duration(seconds: 5));
+    final response =
+        await client.get(Uri.parse('http://localhost:8080/transactions'));
     return jsonDecode(response.body)
         .map<Transaction>((json) => Transaction.fromJson(json))
         .toList();
@@ -28,7 +32,11 @@ class TransactionWebClient {
       },
       body: jsonEncode(transaction),
     );
-    return Transaction.fromJson(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      return Transaction.fromJson(jsonDecode(response.body));
+    }
+    throw HttpException(
+        _statusCodeResponses[response.statusCode] ?? response.reasonPhrase!);
   }
 }
 
